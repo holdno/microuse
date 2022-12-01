@@ -1,0 +1,53 @@
+// cd etc && protoc --go_out=plugins=grpc:. ./spacegrower/meta/spacegrower.meta.proto
+syntax = "proto3";
+
+package space;
+
+option go_package = "spacegrower/meta";
+
+service Meta {
+    rpc GenerateJWT(GenerateJWTRequest) returns (GenerateJWTReply) {}
+    rpc GetServiceAuthorityInfo(GetServiceInfoRequest) returns (GetServiceAuthorityInfoReply) {}
+    rpc GetServiceConfig(GetServiceConfigRequest) returns (GetServiceConfigReply) {}
+    rpc GetServiceMeta(GetServiceMetaRequest) returns (GetServiceMetaReply) {}
+}
+
+message GetServiceMetaRequest {}
+
+message GetServiceMetaReply {
+  map<string, bytes> Meta = 1;
+}
+
+message GetServiceConfigRequest {
+  string Region = 1;
+  string File = 2;
+}
+
+message GetServiceConfigReply {
+  string File = 1;
+  string Content = 2;
+}
+
+message GenerateJWTRequest {
+  string User = 1;
+  map<string, string> Fields = 2;
+}
+
+message GenerateJWTReply {
+  string JWT = 1;
+  int64 ExpireTime = 2;
+}
+
+message GetServiceInfoRequest {
+    string Appid = 1;
+}
+
+message GetServiceAuthorityInfoReply {
+    string Appid = 1;
+    string ServiceName = 2;
+    string Title = 3;
+    int32 Status = 4;
+    string Secret = 5;
+    string Namespace = 6;
+    string OrgID = 7;
+}
