@@ -1,0 +1,68 @@
+// protoc --go_out=plugins=grpc:. wechat.proto
+syntax = "proto3";
+
+package wechat;
+option go_package = "micro/wechatpb";
+
+service srv {
+    rpc SendTplMessage (SendTplMessageRequest) returns (SendTplMessageResponse);
+    rpc SendMiniprogramMessage (SendMiniprogramMessageRequest) returns (SendMiniprogramMessageResponse);
+    rpc SetMenu (SetMenuRequest) returns (SetMenuResponse);
+    rpc GetMediaList (GetMediaListRequest) returns (GetMediaListResponse);
+}
+
+message GetMediaListRequest {
+    string type = 1;
+}
+
+message GetMediaListResponse {
+    string data = 1;
+}
+
+message SetMenuRequest {
+    string jsonMenu = 1;
+}
+
+message SetMenuResponse {
+    bool ok = 1;
+}
+
+message SendTplMessageRequest {
+    string openid = 1;
+    string tpl = 2;
+    map<string, TplMessageItem> data = 3;
+    string url = 4;
+    string color = 5;
+    MiniProgram miniProgram = 6;
+}
+
+message MiniProgram {
+    string appid = 1;
+    string pagePath = 2;
+}
+
+message TplMessageItem {
+    string value = 1;
+    string color = 2;
+}
+
+message SendTplMessageResponse {
+    int64 msgID = 1;
+}
+
+message SendMiniprogramMessageRequest {
+    string openid = 1;
+    string tpl = 2;
+    string page = 3;
+    map<string, MiniprogramTplMessageItem> data = 4;
+    string miniprogramState = 5;
+    string lange = 6;
+}
+
+message MiniprogramTplMessageItem {
+    string value = 1;
+}
+
+message SendMiniprogramMessageResponse {
+
+}
